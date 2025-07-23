@@ -1,1 +1,85 @@
-index
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Erotisches Würfelspiel</title>
+</head>
+<body>
+
+  <button onclick="wuerfeln()">🎲 Würfeln</button>
+  <button onclick="zurueck()" style="margin-left: 10px;">🔙 Zurück</button>
+
+  <p id="aktion" style="margin-top: 30px;">Klicke auf „Würfeln“, um zu starten.</p>
+
+  <script>
+    const aktionen = {
+      stufe1: [
+        "m: Streichel ihren Po – über der Kleidung.",
+        "m: Küsse ihren Hals mit leichtem Saugen.",
+        "m: Gleite mit dem Finger kurz unters Oberteil.",
+        "m: Flüstre ihr, was du tun würdest, wenn sie nackt wäre.",
+        "w: Beiß ihm sanft in die Unterlippe.",
+        "w: Massier seinen Nacken und küsse die Schulter."
+      ],
+      stufe2: [
+        "m: Zieh ihr ein Kleidungsstück langsam aus – mit Blickkontakt.",
+        "w: Zieh ihm die Unterwäsche mit dem Mund aus.",
+        "m: Lass dir die Unterwäsche langsam ausziehen.",
+        "w: Zieh dich langsam und lasziv selbst aus.",
+        "m: Entkleide sie und küsse jede neue Hautstelle.",
+        "w: Fordere sexy ein Kleidungsstück von ihm.",
+        "m: Gleite mit der Hand unter ihre Unterwäsche."
+      ],
+      stufe3: [
+        "m: Reib dich nackt an ihr – ohne Eindringen.",
+        "w: Massier seinen Intimbereich – langsam.",
+        "w: Küsse seine Innenschenkel – ganz langsam.",
+        "m: Streichle sie mit langen, langsamen Bewegungen.",
+        "w: Küss ihn, während du ihn anfasst.",
+        "w: Reib dich an seinem Bein – ohne ihn direkt zu berühren."
+      ],
+      stufe4: [
+        "m: Leck sie langsam – nur neckend.",
+        "w: Verwöhne ihn oral – mit Anweisungen von ihm.",
+        "m: Berühre dich selbst – während sie zusieht.",
+        "w: Bring ihn mit der Hand zum Höhepunkt.",
+        "m: Masturbier dich, während sie dich küsst.",
+        "w: 69 – nur kurz, dann aufhören.",
+        "m: Halte Augenkontakt, während du sie oral verwöhnst.",
+        "w: Nutze deine Finger – an dir selbst – während er dich beobachtet."
+      ]
+    };
+
+    let aktuelleStufe = 1;
+    let verlauf = []; // Verlauf der gezogenen Aktionen
+
+    function wuerfeln() {
+      const stufenKey = "stufe" + aktuelleStufe;
+      const aktuelleAktionen = aktionen[stufenKey];
+
+      if (aktuelleAktionen.length > 0) {
+        const index = Math.floor(Math.random() * aktuelleAktionen.length);
+        const aktion = aktuelleAktionen.splice(index, 1)[0];
+        verlauf.push({ stufe: aktuelleStufe, aktion: aktion });
+        document.getElementById("aktion").textContent = aktion;
+      } else if (aktuelleStufe < 4) {
+        aktuelleStufe++;
+        wuerfeln(); // direkt Aktion aus nächster Stufe
+      } else {
+        document.getElementById("aktion").textContent = "Das Spiel ist beendet. 😈";
+      }
+    }
+
+    function zurueck() {
+      if (verlauf.length === 0) return;
+
+      const letzte = verlauf.pop();
+      const stufenKey = "stufe" + letzte.stufe;
+      aktionen[stufenKey].push(letzte.aktion);
+      aktuelleStufe = letzte.stufe;
+      document.getElementById("aktion").textContent = "(Letzte Aktion rückgängig gemacht)";
+    }
+  </script>
+
+</body>
+</html>
