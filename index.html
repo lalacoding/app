@@ -6,26 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    button {
-      font-size: 1.2rem;
-      margin: 0.5rem;
-      padding: 0.5rem 1rem;
-    }
-    .rolle {
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-top: 2rem;
-    }
-    .aktion {
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
-    }
-  </style>
+  body {
+    font-family: sans-serif;
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+
+  button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.2rem;
+    margin: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    min-width: 120px;
+    touch-action: manipulation;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  button:first-of-type {
+    background-color: #ddd;
+    color: #333;
+  }
+
+  button:last-of-type {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .rolle {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .aktion {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+  }
+</style>
 </head>
 <body>
 
