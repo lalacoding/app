@@ -107,14 +107,18 @@
           anzeige.value = aktion;
         }
 
-        function zurueck() {
-          if (verlauf.value.length === 0) return;
-          const letzte = verlauf.value.pop();
-          const key = 'stufe' + letzte.stufe;
-          aktionen[key].push(letzte.aktion);
-          aktuelleStufe.value = letzte.stufe;
-          anzeige.value = { rolle: '', text: '(Letzte Aktion rückgängig gemacht)' };
-        }
+function zurueck() {
+  if (verlauf.value.length === 0) return;
+
+  const letzte = verlauf.value.pop();
+  const key = 'stufe' + letzte.stufe;
+
+  aktionen[key].push(letzte.aktion);
+  aktuelleStufe.value = letzte.stufe;
+
+  // Zeige die rückgängig gemachte Aktion wieder an
+  anzeige.value = letzte.aktion;
+}
 
         return { wuerfeln, zurueck, anzeige, rolleSymbol };
       }
