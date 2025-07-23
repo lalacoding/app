@@ -30,8 +30,8 @@
 <body>
 
   <div id="app">
-    <button @click="wuerfeln">🎲 Würfeln</button>
     <button @click="zurueck">🔙 Zurück</button>
+<button @click="wuerfeln" style="margin-left: 10px;">🎲 Würfeln</button>
 
     <p v-if="anzeige.rolle" class="rolle">{{ rolleSymbol(anzeige.rolle) }}</p>
     <p class="aktion">{{ anzeige.text || 'Klicke auf „Würfeln“, um zu starten.' }}</p>
