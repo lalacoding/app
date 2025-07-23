@@ -4,92 +4,121 @@
   <meta charset="UTF-8">
   <title>Erotisches Würfelspiel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    button {
+      font-size: 1.2rem;
+      margin: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+    .rolle {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+    .aktion {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
 
-  <button onclick="wuerfeln()">🎲 Würfeln</button>
-  <button onclick="zurueck()" style="margin-left: 10px;">🔙 Zurück</button>
+  <div id="app">
+    <button @click="wuerfeln">🎲 Würfeln</button>
+    <button @click="zurueck">🔙 Zurück</button>
 
-  <p id="rolle" style="margin-top: 30px; font-weight: bold;"></p>
-  <p id="aktion">Klicke auf „Würfeln“, um zu starten.</p>
+    <p v-if="anzeige.rolle" class="rolle">{{ rolleSymbol(anzeige.rolle) }}</p>
+    <p class="aktion">{{ anzeige.text || 'Klicke auf „Würfeln“, um zu starten.' }}</p>
+  </div>
 
   <script>
-    const aktionen = {
-      stufe1: [
-        { rolle: "m", text: "Streichel ihren Po – über der Kleidung." },
-        { rolle: "m", text: "Küsse ihren Hals mit leichtem Saugen." },
-        { rolle: "m", text: "Gleite mit dem Finger kurz unters Oberteil." },
-        { rolle: "m", text: "Flüstre ihr, was du tun würdest, wenn sie nackt wäre." },
-        { rolle: "w", text: "Beiß ihm sanft in die Unterlippe." },
-        { rolle: "w", text: "Massier seinen Nacken und küsse die Schulter." }
-      ],
-      stufe2: [
-        { rolle: "m", text: "Zieh ihr ein Kleidungsstück langsam aus – mit Blickkontakt." },
-        { rolle: "w", text: "Zieh ihm die Unterwäsche mit dem Mund aus." },
-        { rolle: "m", text: "Lass dir die Unterwäsche langsam ausziehen." },
-        { rolle: "w", text: "Zieh dich langsam und lasziv selbst aus." },
-        { rolle: "m", text: "Entkleide sie und küsse jede neue Hautstelle." },
-        { rolle: "w", text: "Fordere sexy ein Kleidungsstück von ihm." },
-        { rolle: "m", text: "Gleite mit der Hand unter ihre Unterwäsche." }
-      ],
-      stufe3: [
-        { rolle: "m", text: "Reib dich nackt an ihr – ohne Eindringen." },
-        { rolle: "w", text: "Massier seinen Intimbereich – langsam." },
-        { rolle: "w", text: "Küsse seine Innenschenkel – ganz langsam." },
-        { rolle: "m", text: "Streichle sie mit langen, langsamen Bewegungen." },
-        { rolle: "w", text: "Küss ihn, während du ihn anfasst." },
-        { rolle: "w", text: "Reib dich an seinem Bein – ohne ihn direkt zu berühren." }
-      ],
-      stufe4: [
-        { rolle: "m", text: "Leck sie langsam – nur neckend." },
-        { rolle: "w", text: "Verwöhne ihn oral – mit Anweisungen von ihm." },
-        { rolle: "m", text: "Berühre dich selbst – während sie zusieht." },
-        { rolle: "w", text: "Bring ihn mit der Hand zum Höhepunkt." },
-        { rolle: "m", text: "Masturbier dich, während sie dich küsst." },
-        { rolle: "w", text: "69 – nur kurz, dann aufhören." },
-        { rolle: "m", text: "Halte Augenkontakt, während du sie oral verwöhnst." },
-        { rolle: "w", text: "Nutze deine Finger – an dir selbst – während er dich beobachtet." }
-      ]
-    };
+    const { createApp, reactive, ref } = Vue;
 
-    let aktuelleStufe = 1;
-    let verlauf = [];
+    createApp({
+      setup() {
+        const aktuelleStufe = ref(1);
+        const verlauf = ref([]);
+        const anzeige = ref({ rolle: '', text: '' });
 
-    function rolleSymbol(rolle) {
-      return rolle === "m" ? "👨 Mann" : "👩 Frau";
-    }
+        const aktionen = reactive({
+          stufe1: [
+            { rolle: "m", text: "Streichel ihren Po – über der Kleidung." },
+            { rolle: "m", text: "Küsse ihren Hals mit leichtem Saugen." },
+            { rolle: "m", text: "Gleite mit dem Finger kurz unters Oberteil." },
+            { rolle: "m", text: "Flüstre ihr, was du tun würdest, wenn sie nackt wäre." },
+            { rolle: "w", text: "Beiß ihm sanft in die Unterlippe." },
+            { rolle: "w", text: "Massier seinen Nacken und küsse die Schulter." }
+          ],
+          stufe2: [
+            { rolle: "m", text: "Zieh ihr ein Kleidungsstück langsam aus – mit Blickkontakt." },
+            { rolle: "w", text: "Zieh ihm die Unterwäsche mit dem Mund aus." },
+            { rolle: "m", text: "Lass dir die Unterwäsche langsam ausziehen." },
+            { rolle: "w", text: "Zieh dich langsam und lasziv selbst aus." },
+            { rolle: "m", text: "Entkleide sie und küsse jede neue Hautstelle." },
+            { rolle: "w", text: "Fordere sexy ein Kleidungsstück von ihm." },
+            { rolle: "m", text: "Gleite mit der Hand unter ihre Unterwäsche." }
+          ],
+          stufe3: [
+            { rolle: "m", text: "Reib dich nackt an ihr – ohne Eindringen." },
+            { rolle: "w", text: "Massier seinen Intimbereich – langsam." },
+            { rolle: "w", text: "Küsse seine Innenschenkel – ganz langsam." },
+            { rolle: "m", text: "Streichle sie mit langen, langsamen Bewegungen." },
+            { rolle: "w", text: "Küss ihn, während du ihn anfasst." },
+            { rolle: "w", text: "Reib dich an seinem Bein – ohne ihn direkt zu berühren." }
+          ],
+          stufe4: [
+            { rolle: "m", text: "Leck sie langsam – nur neckend." },
+            { rolle: "w", text: "Verwöhne ihn oral – mit Anweisungen von ihm." },
+            { rolle: "m", text: "Berühre dich selbst – während sie zusieht." },
+            { rolle: "w", text: "Bring ihn mit der Hand zum Höhepunkt." },
+            { rolle: "m", text: "Masturbier dich, während sie dich küsst." },
+            { rolle: "w", text: "69 – nur kurz, dann aufhören." },
+            { rolle: "m", text: "Halte Augenkontakt, während du sie oral verwöhnst." },
+            { rolle: "w", text: "Nutze deine Finger – an dir selbst – während er dich beobachtet." }
+          ]
+        });
 
-    function wuerfeln() {
-      const stufenKey = "stufe" + aktuelleStufe;
-      const aktuelleAktionen = aktionen[stufenKey];
+        function rolleSymbol(rolle) {
+          return rolle === 'm' ? '👨 Mann' : '👩 Frau';
+        }
 
-      if (aktuelleAktionen.length > 0) {
-        const index = Math.floor(Math.random() * aktuelleAktionen.length);
-        const aktion = aktuelleAktionen.splice(index, 1)[0];
-        verlauf.push({ stufe: aktuelleStufe, aktion: aktion });
+        function wuerfeln() {
+          const key = 'stufe' + aktuelleStufe.value;
+          const liste = aktionen[key];
+          if (liste.length === 0) {
+            if (aktuelleStufe.value < 4) {
+              aktuelleStufe.value++;
+              wuerfeln(); // direkt mit neuer Stufe weiter
+            } else {
+              anzeige.value = { rolle: '', text: 'Das Spiel ist beendet. 😈' };
+            }
+            return;
+          }
 
-        document.getElementById("rolle").textContent = rolleSymbol(aktion.rolle);
-        document.getElementById("aktion").textContent = aktion.text;
-      } else if (aktuelleStufe < 4) {
-        aktuelleStufe++;
-        wuerfeln();
-      } else {
-        document.getElementById("rolle").textContent = "";
-        document.getElementById("aktion").textContent = "Das Spiel ist beendet. 😈";
+          const index = Math.floor(Math.random() * liste.length);
+          const aktion = liste.splice(index, 1)[0];
+          verlauf.value.push({ stufe: aktuelleStufe.value, aktion });
+          anzeige.value = aktion;
+        }
+
+        function zurueck() {
+          if (verlauf.value.length === 0) return;
+          const letzte = verlauf.value.pop();
+          const key = 'stufe' + letzte.stufe;
+          aktionen[key].push(letzte.aktion);
+          aktuelleStufe.value = letzte.stufe;
+          anzeige.value = { rolle: '', text: '(Letzte Aktion rückgängig gemacht)' };
+        }
+
+        return { wuerfeln, zurueck, anzeige, rolleSymbol };
       }
-    }
-
-    function zurueck() {
-      if (verlauf.length === 0) return;
-
-      const letzte = verlauf.pop();
-      const stufenKey = "stufe" + letzte.stufe;
-      aktionen[stufenKey].push(letzte.aktion);
-      aktuelleStufe = letzte.stufe;
-
-      document.getElementById("rolle").textContent = "";
-      document.getElementById("aktion").textContent = "(Letzte Aktion rückgängig gemacht)";
-    }
+    }).mount('#app');
   </script>
 
 </body>
