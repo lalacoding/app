@@ -3,55 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>Erotisches Würfelspiel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
   <button onclick="wuerfeln()">🎲 Würfeln</button>
   <button onclick="zurueck()" style="margin-left: 10px;">🔙 Zurück</button>
 
-  <p id="aktion" style="margin-top: 30px;">Klicke auf „Würfeln“, um zu starten.</p>
+  <p id="rolle" style="margin-top: 30px; font-weight: bold;"></p>
+  <p id="aktion">Klicke auf „Würfeln“, um zu starten.</p>
 
   <script>
     const aktionen = {
       stufe1: [
-        "m: Streichel ihren Po – über der Kleidung.",
-        "m: Küsse ihren Hals mit leichtem Saugen.",
-        "m: Gleite mit dem Finger kurz unters Oberteil.",
-        "m: Flüstre ihr, was du tun würdest, wenn sie nackt wäre.",
-        "w: Beiß ihm sanft in die Unterlippe.",
-        "w: Massier seinen Nacken und küsse die Schulter."
+        { rolle: "m", text: "Streichel ihren Po – über der Kleidung." },
+        { rolle: "m", text: "Küsse ihren Hals mit leichtem Saugen." },
+        { rolle: "m", text: "Gleite mit dem Finger kurz unters Oberteil." },
+        { rolle: "m", text: "Flüstre ihr, was du tun würdest, wenn sie nackt wäre." },
+        { rolle: "w", text: "Beiß ihm sanft in die Unterlippe." },
+        { rolle: "w", text: "Massier seinen Nacken und küsse die Schulter." }
       ],
       stufe2: [
-        "m: Zieh ihr ein Kleidungsstück langsam aus – mit Blickkontakt.",
-        "w: Zieh ihm die Unterwäsche mit dem Mund aus.",
-        "m: Lass dir die Unterwäsche langsam ausziehen.",
-        "w: Zieh dich langsam und lasziv selbst aus.",
-        "m: Entkleide sie und küsse jede neue Hautstelle.",
-        "w: Fordere sexy ein Kleidungsstück von ihm.",
-        "m: Gleite mit der Hand unter ihre Unterwäsche."
+        { rolle: "m", text: "Zieh ihr ein Kleidungsstück langsam aus – mit Blickkontakt." },
+        { rolle: "w", text: "Zieh ihm die Unterwäsche mit dem Mund aus." },
+        { rolle: "m", text: "Lass dir die Unterwäsche langsam ausziehen." },
+        { rolle: "w", text: "Zieh dich langsam und lasziv selbst aus." },
+        { rolle: "m", text: "Entkleide sie und küsse jede neue Hautstelle." },
+        { rolle: "w", text: "Fordere sexy ein Kleidungsstück von ihm." },
+        { rolle: "m", text: "Gleite mit der Hand unter ihre Unterwäsche." }
       ],
       stufe3: [
-        "m: Reib dich nackt an ihr – ohne Eindringen.",
-        "w: Massier seinen Intimbereich – langsam.",
-        "w: Küsse seine Innenschenkel – ganz langsam.",
-        "m: Streichle sie mit langen, langsamen Bewegungen.",
-        "w: Küss ihn, während du ihn anfasst.",
-        "w: Reib dich an seinem Bein – ohne ihn direkt zu berühren."
+        { rolle: "m", text: "Reib dich nackt an ihr – ohne Eindringen." },
+        { rolle: "w", text: "Massier seinen Intimbereich – langsam." },
+        { rolle: "w", text: "Küsse seine Innenschenkel – ganz langsam." },
+        { rolle: "m", text: "Streichle sie mit langen, langsamen Bewegungen." },
+        { rolle: "w", text: "Küss ihn, während du ihn anfasst." },
+        { rolle: "w", text: "Reib dich an seinem Bein – ohne ihn direkt zu berühren." }
       ],
       stufe4: [
-        "m: Leck sie langsam – nur neckend.",
-        "w: Verwöhne ihn oral – mit Anweisungen von ihm.",
-        "m: Berühre dich selbst – während sie zusieht.",
-        "w: Bring ihn mit der Hand zum Höhepunkt.",
-        "m: Masturbier dich, während sie dich küsst.",
-        "w: 69 – nur kurz, dann aufhören.",
-        "m: Halte Augenkontakt, während du sie oral verwöhnst.",
-        "w: Nutze deine Finger – an dir selbst – während er dich beobachtet."
+        { rolle: "m", text: "Leck sie langsam – nur neckend." },
+        { rolle: "w", text: "Verwöhne ihn oral – mit Anweisungen von ihm." },
+        { rolle: "m", text: "Berühre dich selbst – während sie zusieht." },
+        { rolle: "w", text: "Bring ihn mit der Hand zum Höhepunkt." },
+        { rolle: "m", text: "Masturbier dich, während sie dich küsst." },
+        { rolle: "w", text: "69 – nur kurz, dann aufhören." },
+        { rolle: "m", text: "Halte Augenkontakt, während du sie oral verwöhnst." },
+        { rolle: "w", text: "Nutze deine Finger – an dir selbst – während er dich beobachtet." }
       ]
     };
 
     let aktuelleStufe = 1;
-    let verlauf = []; // Verlauf der gezogenen Aktionen
+    let verlauf = [];
+
+    function rolleSymbol(rolle) {
+      return rolle === "m" ? "👨 Mann" : "👩 Frau";
+    }
 
     function wuerfeln() {
       const stufenKey = "stufe" + aktuelleStufe;
@@ -61,11 +67,14 @@
         const index = Math.floor(Math.random() * aktuelleAktionen.length);
         const aktion = aktuelleAktionen.splice(index, 1)[0];
         verlauf.push({ stufe: aktuelleStufe, aktion: aktion });
-        document.getElementById("aktion").textContent = aktion;
+
+        document.getElementById("rolle").textContent = rolleSymbol(aktion.rolle);
+        document.getElementById("aktion").textContent = aktion.text;
       } else if (aktuelleStufe < 4) {
         aktuelleStufe++;
-        wuerfeln(); // direkt Aktion aus nächster Stufe
+        wuerfeln();
       } else {
+        document.getElementById("rolle").textContent = "";
         document.getElementById("aktion").textContent = "Das Spiel ist beendet. 😈";
       }
     }
@@ -77,6 +86,8 @@
       const stufenKey = "stufe" + letzte.stufe;
       aktionen[stufenKey].push(letzte.aktion);
       aktuelleStufe = letzte.stufe;
+
+      document.getElementById("rolle").textContent = "";
       document.getElementById("aktion").textContent = "(Letzte Aktion rückgängig gemacht)";
     }
   </script>
